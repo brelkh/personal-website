@@ -200,48 +200,6 @@
     .cta-links a:hover { border-color: var(--accent); color: var(--accent); }
     .cta-links svg { flex-shrink: 0; }
 
-    /* ── Stats ── */
-    .stats-row {
-      display: flex;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 72px;
-    }
-
-    .stat {
-      flex: 1;
-      padding: 20px 16px;
-      text-align: center;
-      position: relative;
-    }
-
-    .stat + .stat::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 20%; height: 60%;
-      width: 1px;
-      background: var(--border);
-    }
-
-    .stat-num {
-      display: block;
-      font-size: 1.8rem;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.2;
-      margin-bottom: 2px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .stat-label {
-      font-size: 11.5px;
-      color: var(--muted);
-    }
-
     /* ── Scroll fade ── */
     .fade-in {
       opacity: 0;
@@ -389,9 +347,6 @@
     @media (max-width: 560px) {
       nav ul { gap: 14px; }
       .hero h1 { font-size: 2rem; }
-      .stats-row { flex-direction: column; }
-      .stat + .stat::before { display: none; }
-      .stat + .stat { border-top: 1px solid var(--border); }
     }
   </style>
 </head>
@@ -452,22 +407,6 @@
         </a>
       </div>
     </section>
-
-    <!-- Stats -->
-    <div class="stats-row fade-in">
-      <div class="stat">
-        <span class="stat-num">50%</span>
-        <span class="stat-label">inspection time reduced</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">80%</span>
-        <span class="stat-label">API latency cut</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">2</span>
-        <span class="stat-label">hospital deployments</span>
-      </div>
-    </div>
 
     <!-- Experience -->
     <section id="experience" class="fade-in">
