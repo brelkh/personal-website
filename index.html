@@ -1,24 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Brandon Kheng — Software Engineer focused on robotics and backend systems, based in Singapore." />
   <title>Brandon Kheng</title>
+  <script>
+    /* prevent theme flash */
+    (function() {
+      var t = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
+    a { color: inherit; text-decoration: none; }
 
+    /* ── Themes ── */
     :root {
-      --bg:      #ffffff;
-      --text:    #111827;
-      --sub:     #374151;
-      --muted:   #6b7280;
-      --border:  #e5e7eb;
-      --accent:  #2563eb;
+      --bg:      #0c0c0e;
+      --surface: #18181b;
+      --text:    #fafafa;
+      --sub:     #a1a1aa;
+      --muted:   #71717a;
+      --border:  #27272a;
+      --accent:  #60a5fa;
+      --accent2: #a78bfa;
     }
 
+    [data-theme="light"] {
+      --bg:      #ffffff;
+      --surface: #f4f4f5;
+      --text:    #09090b;
+      --sub:     #3f3f46;
+      --muted:   #71717a;
+      --border:  #e4e4e7;
+      --accent:  #2563eb;
+      --accent2: #7c3aed;
+    }
+
+    /* ── Base ── */
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
       background: var(--bg);
@@ -26,13 +48,12 @@
       font-size: 15px;
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.2s, color 0.2s;
     }
-
-    a { color: inherit; text-decoration: none; }
 
     /* ── Layout ── */
     .wrap {
-      max-width: 680px;
+      max-width: 700px;
       margin: 0 auto;
       padding: 48px 24px 80px;
     }
@@ -42,19 +63,29 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 72px;
+      margin-bottom: 80px;
     }
 
-    nav .brand {
-      font-weight: 700;
+    .brand {
+      font-weight: 800;
       font-size: 15px;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
     }
 
     nav ul {
       list-style: none;
       display: flex;
-      gap: 28px;
+      gap: 24px;
     }
 
     nav ul a {
@@ -65,46 +96,86 @@
 
     nav ul a:hover { color: var(--text); }
 
-    /* ── Hero ── */
-    .hero { margin-bottom: 64px; }
-
-    .hero h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 6px;
-    }
-
-    .hero .tagline {
-      font-size: 15px;
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
       color: var(--muted);
-      margin-bottom: 20px;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      flex-shrink: 0;
     }
 
-    .hero p {
-      font-size: 15px;
-      color: var(--sub);
-      max-width: 540px;
-      margin-bottom: 28px;
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .theme-toggle svg { display: block; pointer-events: none; }
+
+    .icon-moon { display: block; }
+    .icon-sun  { display: none; }
+    [data-theme="light"] .icon-moon { display: none; }
+    [data-theme="light"] .icon-sun  { display: block; }
+
+    /* ── Hero ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .hero {
+      margin-bottom: 64px;
+      animation: fadeUp 0.55s ease both;
     }
 
     .status {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       font-size: 12px;
       color: var(--muted);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 3px 10px;
-      margin-bottom: 24px;
+      padding: 4px 12px;
+      margin-bottom: 28px;
     }
 
     .status-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+      margin-bottom: 14px;
+    }
+
+    .hero .tagline {
+      font-size: 1.05rem;
+      color: var(--sub);
+      margin-bottom: 24px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 15px;
+      color: var(--sub);
+      max-width: 520px;
+      margin-bottom: 32px;
     }
 
     .cta-links {
@@ -119,22 +190,74 @@
       gap: 7px;
       font-size: 13px;
       font-weight: 500;
-      padding: 7px 14px;
-      border-radius: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
       border: 1px solid var(--border);
       color: var(--text);
       transition: border-color 0.15s, color 0.15s;
     }
 
-    .cta-links a:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
+    .cta-links a:hover { border-color: var(--accent); color: var(--accent); }
     .cta-links svg { flex-shrink: 0; }
 
-    /* ── Section ── */
-    section { margin-bottom: 52px; }
+    /* ── Stats ── */
+    .stats-row {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 72px;
+    }
+
+    .stat {
+      flex: 1;
+      padding: 20px 16px;
+      text-align: center;
+      position: relative;
+    }
+
+    .stat + .stat::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 20%; height: 60%;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .stat-num {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.2;
+      margin-bottom: 2px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    /* ── Scroll fade ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero { animation: none; }
+      .fade-in { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ── Section label ── */
+    section { margin-bottom: 56px; }
 
     .section-label {
       font-size: 11px;
@@ -146,7 +269,11 @@
     }
 
     /* ── Experience ── */
-    .exp-item + .exp-item { margin-top: 28px; }
+    .exp-item + .exp-item {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+    }
 
     .exp-row {
       display: flex;
@@ -156,37 +283,31 @@
       gap: 4px;
     }
 
-    .exp-role {
-      font-weight: 600;
-      font-size: 14px;
-    }
+    .exp-role { font-weight: 600; font-size: 14px; }
 
-    .exp-period {
-      font-size: 12px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
+    .exp-period { font-size: 12px; color: var(--muted); white-space: nowrap; }
 
     .exp-company {
       font-size: 13px;
-      color: var(--muted);
+      font-weight: 500;
+      color: var(--accent);
       margin-bottom: 8px;
     }
 
-    .exp-item ul {
-      padding-left: 16px;
-      color: var(--sub);
-      font-size: 13.5px;
-    }
-
-    .exp-item li + li { margin-top: 3px; }
+    .exp-item ul { padding-left: 16px; color: var(--sub); font-size: 13.5px; }
+    .exp-item li + li { margin-top: 4px; }
 
     /* ── Projects ── */
-    .proj-item + .proj-item {
-      margin-top: 28px;
-      padding-top: 28px;
-      border-top: 1px solid var(--border);
+    .proj-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      transition: border-color 0.2s;
     }
+
+    .proj-item + .proj-item { margin-top: 12px; }
+    .proj-item:hover { border-color: var(--accent); }
 
     .proj-row {
       display: flex;
@@ -197,31 +318,14 @@
       margin-bottom: 8px;
     }
 
-    .proj-name {
-      font-weight: 600;
-      font-size: 14px;
-    }
+    .proj-name { font-weight: 600; font-size: 14px; }
+    .proj-period { font-size: 12px; color: var(--muted); white-space: nowrap; }
 
-    .proj-period {
-      font-size: 12px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    .proj-item ul {
-      padding-left: 16px;
-      color: var(--sub);
-      font-size: 13.5px;
-    }
-
-    .proj-item li + li { margin-top: 3px; }
+    .proj-item ul { padding-left: 16px; color: var(--sub); font-size: 13.5px; }
+    .proj-item li + li { margin-top: 4px; }
 
     /* ── Skills ── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 16px;
-    }
+    .skill-group + .skill-group { margin-top: 16px; }
 
     .skill-group h4 {
       font-size: 11px;
@@ -229,12 +333,18 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--muted);
-      margin-bottom: 4px;
+      margin-bottom: 8px;
     }
 
-    .skill-group p {
-      font-size: 13.5px;
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .tag {
+      font-size: 12.5px;
       color: var(--sub);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 10px;
     }
 
     /* ── Education ── */
@@ -246,27 +356,17 @@
       gap: 4px;
     }
 
-    .edu-degree {
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .edu-period {
-      font-size: 12px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
+    .edu-degree { font-weight: 600; font-size: 14px; }
+    .edu-period { font-size: 12px; color: var(--muted); white-space: nowrap; }
 
     .edu-school {
       font-size: 13px;
-      color: var(--muted);
+      font-weight: 500;
+      color: var(--accent);
       margin-bottom: 4px;
     }
 
-    .edu-notes {
-      font-size: 13px;
-      color: var(--sub);
-    }
+    .edu-notes { font-size: 13px; color: var(--sub); }
 
     /* ── Footer ── */
     footer {
@@ -281,22 +381,17 @@
       color: var(--muted);
     }
 
-    footer .footer-links {
-      display: flex;
-      gap: 16px;
-    }
-
-    footer .footer-links a {
-      color: var(--muted);
-      transition: color 0.15s;
-    }
-
-    footer .footer-links a:hover { color: var(--text); }
+    .footer-links { display: flex; gap: 16px; }
+    .footer-links a { transition: color 0.15s; }
+    .footer-links a:hover { color: var(--text); }
 
     /* ── Responsive ── */
     @media (max-width: 560px) {
-      nav ul { gap: 16px; }
-      .hero h1 { font-size: 1.6rem; }
+      nav ul { gap: 14px; }
+      .hero h1 { font-size: 2rem; }
+      .stats-row { flex-direction: column; }
+      .stat + .stat::before { display: none; }
+      .stat + .stat { border-top: 1px solid var(--border); }
     }
   </style>
 </head>
@@ -305,12 +400,26 @@
 
     <!-- Nav -->
     <nav>
-      <a href="#" class="brand">Brandon Kheng</a>
-      <ul>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-      </ul>
+      <a href="#" class="brand">BK</a>
+      <div class="nav-right">
+        <ul>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+        </ul>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+          <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </div>
     </nav>
 
     <!-- Hero -->
@@ -320,7 +429,9 @@
         Open to opportunities · Singapore
       </div>
       <h1>Brandon Kheng</h1>
-      <p class="tagline">Software Engineer — Robotics &amp; Backend Systems</p>
+      <p class="tagline">
+        Software Engineer — <span class="gradient-text">Robotics &amp; Backend Systems</span>
+      </p>
       <p>
         I build backend and middleware systems for robotic platforms. Currently at
         <strong>HOPE Technik</strong>, working on multi-robot deployments, autonomous navigation,
@@ -342,8 +453,24 @@
       </div>
     </section>
 
+    <!-- Stats -->
+    <div class="stats-row fade-in">
+      <div class="stat">
+        <span class="stat-num">50%</span>
+        <span class="stat-label">inspection time reduced</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">80%</span>
+        <span class="stat-label">API latency cut</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">2</span>
+        <span class="stat-label">hospital deployments</span>
+      </div>
+    </div>
+
     <!-- Experience -->
-    <section id="experience">
+    <section id="experience" class="fade-in">
       <p class="section-label">Experience</p>
 
       <div class="exp-item">
@@ -386,7 +513,7 @@
     </section>
 
     <!-- Projects -->
-    <section id="projects">
+    <section id="projects" class="fade-in">
       <p class="section-label">Selected Projects</p>
 
       <div class="proj-item">
@@ -417,26 +544,48 @@
     </section>
 
     <!-- Skills -->
-    <section id="skills">
+    <section id="skills" class="fade-in">
       <p class="section-label">Skills</p>
-      <div class="skills-grid">
-        <div class="skill-group">
-          <h4>Languages</h4>
-          <p>Python, C++, JavaScript, Java, C</p>
+
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">C++</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Java</span>
+          <span class="tag">C</span>
         </div>
-        <div class="skill-group">
-          <h4>Robotics &amp; Systems</h4>
-          <p>ROS2, RMF, MQTT, Docker, Kubernetes, Isaac Sim</p>
+      </div>
+
+      <div class="skill-group">
+        <h4>Robotics &amp; Systems</h4>
+        <div class="tags">
+          <span class="tag">ROS2</span>
+          <span class="tag">RMF</span>
+          <span class="tag">MQTT</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Kubernetes</span>
+          <span class="tag">Isaac Sim</span>
         </div>
-        <div class="skill-group">
-          <h4>Backend &amp; Data</h4>
-          <p>Flask, Node.js, SQL, PostgreSQL, MongoDB, Linux, Git</p>
+      </div>
+
+      <div class="skill-group">
+        <h4>Backend &amp; Data</h4>
+        <div class="tags">
+          <span class="tag">Flask</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">SQL</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">Linux</span>
+          <span class="tag">Git</span>
         </div>
       </div>
     </section>
 
     <!-- Education -->
-    <section id="education">
+    <section id="education" class="fade-in">
       <p class="section-label">Education</p>
       <div class="edu-row">
         <span class="edu-degree">B.Comp (Computer Science) with Honours</span>
@@ -456,5 +605,27 @@
     </footer>
 
   </div>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.fade-in').forEach(function(el) {
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
